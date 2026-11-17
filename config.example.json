@@ -1,0 +1,13 @@
+{
+  "proxy": "auto",
+  "search_proxy": "auto",
+  "mp3_bitrate": "320k",
+  "keep_torrent_data": false,
+  "max_peers": 40,
+  "search_limit": 60,
+  "search_source": "all",
+  "audio_volume": 80,
+  "slsk_enabled": true,
+  "slsk_user": "",
+  "slsk_pass": ""
+}

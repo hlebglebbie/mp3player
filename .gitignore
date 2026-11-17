@@ -1,0 +1,21 @@
+# Python
+__pycache__/
+*.py[cod]
+
+# виртуальные окружения
+.venv/
+venv/
+
+# приватные файлы рабочей машины (не публикуются)
+.mimocode/
+AGENTS.md
+
+# редакторы и ОС
+.idea/
+.vscode/
+*.swp
+.DS_Store
+
+# артефакты запусков
+*.part
+torrents/
