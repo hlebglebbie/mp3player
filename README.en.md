@@ -152,3 +152,7 @@ or SoulSeek.
 
 This project is for personal use: respect copyright and the rules of the
 Soulseek network.
+
+## License
+
+[MIT](LICENSE)
