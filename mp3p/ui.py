@@ -426,7 +426,7 @@ class Interface:
         self.app.play_tracks(tracks, index)
 
     def _toggle_like(self) -> None:
-        if self.modal_session is not None:
+        if self.modal_session is not None or self.path_picker is not None:
             return
         row = self._current_row()
         if row is not None and row.kind == "track":
@@ -437,6 +437,9 @@ class Interface:
         if playing:
             liked = self.app.toggle_like(playing)
             self.flash("Трек лайкнут ♥" if liked else "Лайк снят")
+            return
+        # лайкать нечего: не молчим — подсказываем, что l/L делают
+        self.flash("l — лайк трека (под курсором или играющего) · L — папка библиотеки")
 
     def _add_to_playlist(self) -> None:
         if self.modal_session is not None:
@@ -710,11 +713,23 @@ class Interface:
         elif self.view == "downloads":
             self.rows = self._download_rows()
         elif self.view == "library":
-            self.rows = self._track_rows(self.app.library_tracks(), empty="Библиотека пуста — найди треки через /")
+            self.rows = self._track_rows(
+                self.app.library_tracks(),
+                empty="Библиотека пуста — найди треки через / · L — выбрать папку для сохранения",
+            )
         elif self.view == "liked":
             self.rows = self._track_rows(self.app.liked_tracks(), empty="Пока ничего не лайкнуто")
         elif self.view == "playlists":
             self.rows = self._playlist_rows()
+
+        if self.view in ("library", "liked"):
+            # куда сохраняются треки — всегда на виду, чтобы L не был секретом
+            folder = str(self.app.cfg.library_dir)
+            home = str(Path.home())
+            if folder.startswith(home):
+                folder = "~" + folder[len(home):]
+            self._safe_add(2, 1, f"папка: {folder}   ·   L — сменить", self._attr(C_DIM))
+            top = 3
 
         self._draw_rows(top, bottom, width)
         self._draw_player(bottom, width)
